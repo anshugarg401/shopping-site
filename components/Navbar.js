@@ -25,28 +25,41 @@ const Navbar = ({addtocart,removefromcart, cart, total, clearcart}) => {
 
   
   return (
-    <div className="sticky top-0">
-      <div className="flex flex-col md:flex-row-reverse justify-between md:justify-end items-center py-1 shadow-md bg-white z-10 ">
-        <div className="nav inline-flex items-cente">
-          <ul className="flex  items-center space-x-4 font-bold md:text-xl ">
+    <div className="sticky top-0 ">
+      <div className="flex flex-col md:flex-row justify-evenly md: shadow-md bg-white z-10 mr-0  ">
+        <div className="nav flex items-center lg:py-4">
+          <ul className="flex items-center space-x-4 font-bold md:text-xl ">
+          <div className="logo sm:ml-2 md:mx-4 lg:absolute inset-y-0 left-0 py-2">
+          <Link href={"/"}>
+            <a>
+              <Image
+                className="rounded-full"
+                src="/logo.jpg"
+                alt=""
+                height={40}
+                width={40}
+              />
+            </a>
+          </Link>
+        </div>
             <Link href={"/"}>
               <a>
-                <li>home</li>
+                <li className=" hover:text-pink-500">Home</li>
               </a>
             </Link>
             <Link href={"/t-shirts"}>
               <a>
-                <li>t-shirts</li>
+                <li className=" hover:text-pink-500">T-shirts</li>
               </a>
             </Link>
             <Link href={"/hoodies"}>
               <a>
-                <li>hoodies</li>
+                <li className=" hover:text-pink-500">Hoodies</li>
               </a>
             </Link>
             <Link href={"/mugs"}>
               <a>
-                <li>mugs</li>
+                <li className=" hover:text-pink-500">Mugs</li>
               </a>
             </Link>
           </ul>
@@ -86,7 +99,7 @@ const Navbar = ({addtocart,removefromcart, cart, total, clearcart}) => {
                 <div className="flex ">
                   <div className=" w-2/3 p-1  font-normal ">
                     
-                   {cart[k].name}
+                   {cart[k].name} ({cart[k].size}/{cart[k].colour})
                   </div>
                   <div className="flex w-1/3 text-center items-center justify-between pl-2 ">
                   <div className="text-tahiti-200 text-lg p-1 cursor-pointer">
@@ -113,19 +126,7 @@ const Navbar = ({addtocart,removefromcart, cart, total, clearcart}) => {
         </div>
         
 
-        <div className="logo md:mx-6 px-3 ">
-          <Link href={"/"}>
-            <a>
-              <Image
-                className="rounded-full"
-                src="/logo.jpg"
-                alt=""
-                height={40}
-                width={40}
-              />
-            </a>
-          </Link>
-        </div>
+        
       </div>
     </div>
   );

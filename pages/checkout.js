@@ -1,16 +1,68 @@
 import React from "react";
 import Link from "next/link";
-
+import Head from "next/head";
+import Script from "next/script";
 import {
   AiFillCloseCircle,
   AiFillMinusCircle,
   AiFillPlusCircle,
   AiFillShopping,
 } from "react-icons/ai";
-const Checkout = ({ addtocart, removefromcart, cart, total, clearcart }) => {
+const Checkout =  ({ addtocart, removefromcart, cart, total, clearcart, }) => {
+  const initiatepayment = async ()=>{
+    
+ 
+   
+    let oid = Math.floor(Math.random() * Date.now());
+    const data = { cart,total,oid,email:'email' };
+    
+    let a = await  fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pretransaction`, {
+  method: 'POST', // or 'PUT'
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data),
+})
+let txnres = await a.json()
+let txnToken = txnres.txnToken
+// console.log(txnToken)
+    var config = {
+      "root": "",
+      "flow": "DEFAULT",
+      "data": {
+      "orderId": oid, /* update order id */
+      "token": txnToken, /* update token value */
+      "tokenType": "TXN_TOKEN",
+      "amount": total /* update amount */
+      },
+      "handler": {
+      "notifyMerchant": function(eventName,data){
+      console.log("notifyMerchant handler function called");
+      console.log("eventName => ",eventName);
+      console.log("data => ",data);
+    
+      }
+      }
+      };
+      
+    
+      // initialze configuration using init method
+      window.Paytm.CheckoutJS.init(config).then(function onSuccess() {
+      // after successfully updating configuration, invoke JS Checkout
+      window.Paytm.CheckoutJS.invoke();
+      }).catch(function onError(error){
+      console.log("error => ",error);
+      });
+    
+  }
+ 
+
   return (
     <>
       <section className="text-gray-600 body-font relative">
+        <Head><meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0"/></Head>
+        <Script type="application/javascript" src={`${process.env.NEXT_PUBLIC_PAYTM_HOST}/merchantpgpui/checkoutjs/merchants/${process.env.NEXT_PUBLIC_PAYTM_MID}.js`} crossorigin="anonymous"/>
+        
         <div className="container px-5 py-10 mx-auto">
           <div className="flex flex-col text-center w-full mb-6">
             <h1 className="sm:text-3xl text-2xl font-bold title-font mb-4 text-gray-900">
@@ -25,7 +77,7 @@ const Checkout = ({ addtocart, removefromcart, cart, total, clearcart }) => {
             <div className="flex flex-wrap font-semibold">
               <div className="p-2 w-1/2">
                 <div className="relative">
-                  <label for="name" className="leading-7 text-sm text-gray-600">
+                  <label htmlFor="name" className="leading-7 text-sm text-gray-600">
                     Name
                   </label>
                   <input
@@ -38,7 +90,7 @@ const Checkout = ({ addtocart, removefromcart, cart, total, clearcart }) => {
               </div>
               <div className="p-2 w-1/2">
                 <div className="relative">
-                  <label for="email" className="leading-7 text-sm text-gray-600">
+                  <label htmlFor="email" className="leading-7 text-sm text-gray-600">
                     Email
                   </label>
                   <input
@@ -51,7 +103,7 @@ const Checkout = ({ addtocart, removefromcart, cart, total, clearcart }) => {
               </div>
               <div className="p-2 w-full">
                 <div className="relative">
-                  <label for="address" className="leading-7 text-sm text-gray-600">
+                  <label htmlFor="address" className="leading-7 text-sm text-gray-600">
                     address
                   </label>
                   <textarea
@@ -64,7 +116,7 @@ const Checkout = ({ addtocart, removefromcart, cart, total, clearcart }) => {
               </div>
               <div className="p-2 w-1/2">
                 <div className="relative">
-                  <label for="phone" className="leading-7 text-sm text-gray-600">
+                  <label htmlFor="phone" className="leading-7 text-sm text-gray-600">
                     phone
                   </label>
                   <input
@@ -77,7 +129,7 @@ const Checkout = ({ addtocart, removefromcart, cart, total, clearcart }) => {
               </div>
               <div className="p-2 w-1/2">
                 <div className="relative">
-                  <label for="city" className="leading-7 text-sm text-gray-600">
+                  <label htmlFor="city" className="leading-7 text-sm text-gray-600">
                     city
                   </label>
                   <input
@@ -90,7 +142,7 @@ const Checkout = ({ addtocart, removefromcart, cart, total, clearcart }) => {
               </div>
               <div className="p-2 w-1/2">
                 <div className="relative">
-                  <label for="state" className="leading-7 text-sm text-gray-600">
+                  <label htmlFor="state" className="leading-7 text-sm text-gray-600">
                     state
                   </label>
                   <input
@@ -103,7 +155,7 @@ const Checkout = ({ addtocart, removefromcart, cart, total, clearcart }) => {
               </div>
               <div className="p-2 w-1/2">
                 <div className="relative">
-                  <label for="pincode" className="leading-7 text-sm text-gray-600">
+                  <label htmlFor="pincode" className="leading-7 text-sm text-gray-600">
                     pincode
                   </label>
                   <input
@@ -175,7 +227,7 @@ const Checkout = ({ addtocart, removefromcart, cart, total, clearcart }) => {
                   </ol>
                   <span className="text-lg font-medium title-font mb-2 text-gray-900">subtotal: {total}</span>
                 </div>
-                <Link href={'/order'}><a className="m-auto"><button className="grow w-15 mt-4 mx-1  text-white bg-tahiti-200 border-0  py-2 px-1 focus:outline-none hover:bg-tahiti-300 rounded text-lg"><AiFillShopping className=" grow inline-block flex-wrap ml-0 "/> checkout</button></a></Link>
+                <Link href={'/checkout'}><a className="m-auto"><button onClick={initiatepayment} disabled = {true}className="grow w-15 mt-4 mx-1  text-white bg-tahiti-200 disabled :bg-pink-300 border-0  py-2 px-1 focus:outline-none hover:bg-tahiti-300 rounded text-lg"><AiFillShopping className=" grow inline-block flex-wrap ml-0 "/> checkout</button></a></Link>
               </div>
               
             </div>

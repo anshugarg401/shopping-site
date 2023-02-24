@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-
+import Herosection from './herosection'
 
 export default function Home() {
   return (
@@ -13,8 +13,10 @@ export default function Home() {
     
     
     <section className="flex-col text-gray-600 body-font">
-    <div className=' relative'>
-      <Image src="/oppo-VcVrNIobArk-unsplash.jpg"  width="1600%" height="550%" alt = "" className='-z-10'/>
+    <div className="container">
+      <Herosection/>
+     
+      
     </div>
   <div className="container px-5 py-24 mx-auto">
     <div className="flex flex-wrap w-full mb-20 flex-col items-center text-center">

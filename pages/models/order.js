@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 
 const OrderSchema = new Schema({
-    userId: {type: String,required: true}, // String is shorthand for {type: String}
+    email: {type: String,required: true}, // String is shorthand for {type: String}
     Products: [{
         ProductId: {type: String},
         quantity: {type: Number, default:1}
