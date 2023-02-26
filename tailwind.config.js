@@ -17,6 +17,12 @@ module.exports = {
           300: '#c50e9f',
           
         }},
+        height: {
+          '400': '400px',
+        },
+        zIndex: {
+          '9000': '9000',
+        }
     },
   },
   plugins: [],

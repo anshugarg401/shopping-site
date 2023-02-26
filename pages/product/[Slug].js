@@ -53,18 +53,15 @@ useEffect(() => {
   
 
   return(
-   
-
     <section className="text-gray-600 body-font overflow-hidden">
   <div className="container px-5 py-10 mx-auto">
-    <div className="lg:w-1/2 mx-auto flex flex-wrap">
-      <img alt="ecommerce" className=" lg:w-1/2 w-full md:h-auto  object-scale-down object-center rounded" src={product.img}/>
-      <div className="lg:w-1/2 w-full lg:pl-16 lg:py-6 mt-6 lg:mt-0">
+    <div className="flex justify-center items-center md:mx-auto md:flex-row  sm:w-auto flex-col space-x-3">
+      <div className='flex justify-center items-center pb-4  md:pr-6 md:pt-6 md:mx-6 md:border-r-2 border-slate-300  '>
+      <img alt="ecommerce" className="object-cover rounded-sm w-3/6 " src={product.img}/></div>
+      <div className="lg:w-full pl-8 py-6 mt-6">
         <h2 className="text-sm title-font text-gray-500 tracking-widest">Shopify</h2>
         <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{product.title}({product.size}/{product.colour})</h1>
-        <div className="flex mb-4">
-          
-          
+        <div className="flex mb-4"> 
         </div>
         <p className="leading-relaxed">{product.desc}</p>
         <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
@@ -129,7 +126,7 @@ export async function getServerSideProps(context) {
   }
  
   let products = await product.findOne({slug : context.query.Slug});
-  let varients = await product.find({title : products.title})
+   let varients = await product.find({title : products.title})
     let coloursizeslug = {} // {red: {XL:{slug : this is shopify}}}
     for(let items of varients){
       if(Object.keys(coloursizeslug).includes(items.colour)){

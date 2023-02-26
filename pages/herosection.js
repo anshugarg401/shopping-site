@@ -3,7 +3,7 @@ import Slideshow from '../components/slideshow';
 
 
 const Herosection = () => {
-    return <div>
+    return <div className='  h-400 px-1-z-1'>
         <Slideshow/>
     </div>;
 }
