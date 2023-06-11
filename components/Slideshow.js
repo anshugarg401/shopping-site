@@ -26,7 +26,7 @@ const properties = {
               {images.map((each, index) => {        
                 return(
                   
-                    <img key={index} className = "  object-fill shadow-lg h-400 w-screen -z-1"  alt="Slide Image" src={each} />
+                    <img key={index} className = "  object-fill shadow-lg h-200 w-screen -z-1"  alt="Slide Image" src={each} />
               
 
                 )
